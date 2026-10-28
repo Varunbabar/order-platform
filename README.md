@@ -1,36 +1,27 @@
+@'
 # Order Platform
 
-A microservices-based order management backend, built step by step to learn and demonstrate Java, Spring Boot, Node.js, MongoDB, RabbitMQ and Docker.
+A backend for an online store, split into small services instead of one big application.
 
-## Planned Architecture
+When someone places an order, the order service saves it and sends out a message saying "a new order was placed". The notification service picks up that message and tells the customer. The services never call each other's code directly, they only pass messages, so each one can be built, changed and run on its own.
 
-| Service | Tech | Purpose |
-|---|---|---|
-| api-gateway | Spring Cloud Gateway | Single entry point, routing, JWT check |
-| user-service | Spring Boot + MongoDB | Registration, login, JWT |
-| product-service | Spring Boot + MongoDB | Product catalog and stock |
-| order-service | Spring Boot + MongoDB | Places orders, publishes events |
-| notification-service | Node.js | Consumes order events, sends notifications |
-| RabbitMQ | Message broker | Event communication between services |
+## The services
 
-Everything will run with Docker Compose.
+- **user-service**: handles signup and login
+- **product-service**: keeps the list of products and how many are in stock
+- **order-service**: creates orders and sends the "order placed" message
+- **notification-service**: listens for that message and sends the notification
+- **api-gateway**: the one address the outside world talks to, which passes requests on to the right service
 
-## Roadmap
+## Built with
 
-- [x] Phase 0: repository setup and project structure
-- [ ] Phase 1: Docker basics, MongoDB in a container
-- [ ] Phase 2: user-service, Dockerized
-- [ ] Phase 3: Docker Compose and product-service
-- [ ] Phase 4: REST communication between services
-- [ ] Phase 5: order-service and RabbitMQ events
-- [ ] Phase 6: Node.js notification-service
-- [ ] Phase 7: API Gateway and JWT security
-- [ ] Phase 8: CI with GitHub Actions, architecture diagram
+Java and Spring Boot for most services, Node.js for notifications, MongoDB for storage, RabbitMQ for the messages, and Docker to run everything.
 
-## How to run
+## Status
 
-Coming soon.
+Just getting started. The project structure is in place and user-service is next. This section will be updated as each part starts working.
 
-## Author
+## Running it
 
-Varun Babar - https://github.com/Varunbabar
+Not ready yet. Once it is, the goal is a single command that starts all the services together.
+'@ | Set-Content -Encoding ascii README.md
