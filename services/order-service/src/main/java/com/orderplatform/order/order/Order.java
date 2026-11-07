@@ -16,7 +16,7 @@ public class Order {
 	
 	private BigDecimal totalAmount;
 	
-	public String status;
+	private OrderStatus status;
 
 	public String getId() {
 		return id;
@@ -50,13 +50,14 @@ public class Order {
 		this.totalAmount = totalAmount;
 	}
 
-	public String getStatus() {
-		return status;
+	public OrderStatus getStatus() {
+	    return status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setStatus(OrderStatus status) {
+	    this.status = status;
 	}
 	
-	
 }
+	
+	

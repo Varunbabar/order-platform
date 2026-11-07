@@ -1,6 +1,7 @@
 package com.orderplatform.order.order;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,13 @@ public class OrderService {
 		this.productRepository = productRepository;
 		
 	}
-	public Order createOrder (String productId, int quantity) throws IllegalArgumentException {
+	public Order createOrder (String productId, int quantity) {
 		if(quantity <= 0) {
 			throw new IllegalArgumentException("Quantity must be greater than zero");
 		}
 		
 		Product product = productRepository.findById(productId)
-				.orElseThrow(()-> new IllegalArgumentException("Product Not Found! "));
+				.orElseThrow(()-> new ProductNotFoundException("Product Not Found! "));
 		
 		BigDecimal totalAmount = product.getPrice()
 				.multiply(BigDecimal.valueOf(quantity));
@@ -35,9 +36,18 @@ public class OrderService {
 		order.setProductId(product.getId());
 		order.setQuantity(quantity);
 		order.setTotalAmount(totalAmount);
-		order.setStatus("CREATED");
+		order.setStatus(OrderStatus.CREATED);
 			return orderRepository.save(order);
 			
 		
 	}
+	public java.util.List<Order> getAllOrders() {
+	    return orderRepository.findAll();
+	}
+	
+	public Order getOrderById(String id) {
+	    return orderRepository.findById(id)
+	        .orElseThrow(() -> new OrderNotFoundException("Order not found"));
+	}
+
 }
